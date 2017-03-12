@@ -14,7 +14,7 @@ class Login extends React.Component { // eslint-disable-line react/prefer-statel
   constructor() {
     super();
     this.state = fromJS({
-      username: '',
+      email: '',
       password: ''
     });
   }
@@ -23,8 +23,13 @@ class Login extends React.Component { // eslint-disable-line react/prefer-statel
     return (
       <div>
         <h3>Login</h3>
-        <input type="text" onChange={this.onChange.bind(this, 'username')}/>
+
+        <label>Email</label>
+        <input type="text" onChange={this.onChange.bind(this, 'email')} />
+
+        <label>Password</label>
         <input type="password" onChange={this.onChange.bind(this, 'password')}/>
+
         <button onClick={this.onSubmit}>Login</button>
       </div>
     );
@@ -32,7 +37,7 @@ class Login extends React.Component { // eslint-disable-line react/prefer-statel
 
   onSubmit = () => {
     this.props.login({
-      username: this.state.username,
+      email: this.state.email,
       password: this.state.password
     });
   };
@@ -45,7 +50,7 @@ class Login extends React.Component { // eslint-disable-line react/prefer-statel
 }
 
 Login.propTypes = {
-
+  login: React.PropTypes.func.isRequired
 };
 
 export default Login;

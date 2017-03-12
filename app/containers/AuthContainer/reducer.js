@@ -9,9 +9,8 @@ import {
   DEFAULT_ACTION,
 } from './constants';
 import {
-  LOGIN,
-  LOGIN_FAILED,
-  LOGIN_SUCCEEDED
+  LOGIN, LOGIN_FAILED, LOGIN_SUCCEEDED,
+  REGISTER, REGISTER_FAILED, REGISTER_SUCCEEDED
 } from './constants';
 
 const initialState = fromJS({
@@ -22,14 +21,22 @@ const initialState = fromJS({
 function authContainerReducer(state = initialState, action) {
   switch (action.type) {
     case LOGIN:
-      console.log('foo');
       return state.set('waiting', LOGIN);
     case LOGIN_FAILED:
       return state.set('waiting', null);
     case LOGIN_SUCCEEDED:
-      console.log(action.payload);
       return state.set('waiting', null)
         .set('user', action.payload);
+
+
+    case REGISTER:
+      return state.set('waiting', REGISTER);
+    case REGISTER_FAILED:
+      return state.set('waiting', null);
+    case REGISTER_SUCCEEDED:
+      return state.set('waiting', null)
+        .set('user', action.payload);
+
     default:
       return state;
   }

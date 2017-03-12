@@ -9,7 +9,7 @@ import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import makeSelectAuthContainer from './selectors';
 
-import { login } from './actions';
+import { login, register } from './actions';
 import Auth from '../../components/Auth';
 
 export class AuthContainer extends React.Component { // eslint-disable-line react/prefer-stateless-function
@@ -17,7 +17,10 @@ export class AuthContainer extends React.Component { // eslint-disable-line reac
   render() {
     return (
       <div>
-        <Auth login={this.props.login}/>
+        <Auth
+          login={this.props.login}
+          register={this.props.register}
+        />
       </div>
     );
   }
@@ -32,7 +35,8 @@ const mapStateToProps = createStructuredSelector({
 
 function mapDispatchToProps(dispatch) {
   return {
-    login: ({username, password}) => dispatch(login({username, password})),
+    login: ({email, password}) => dispatch(login({email, password})),
+    register: ({email, password}) => dispatch(register({email, password})),
   };
 }
 
