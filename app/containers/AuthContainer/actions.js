@@ -11,31 +11,25 @@ import {
 } from './constants';
 
 import axios from 'axios';
-
 import cookie from 'react-cookie';
 import jwt_decode from 'jwt-decode';
+import {Api} from '../Api';
 
 export function login({username, password}) {
-  return {
-    type: LOGIN,
-  };
-  // console.log({username, password});
-  // return dispatch => {
-  //   console.log('ok');
-  //   dispatch({type: LOGIN});
-  //
-  //   axios.post(`${Api.login}`, {username, password})
-  //     .then(res => {
-  //       // cookie.save('token', res.data.token, {path: '/'});
-  //       console.log(res.data.token);
-  //       console.log();
-  //       dispatch({type: LOGIN_SUCCEEDED, payload: jwt_decode(res.data.token)});
-  //     })
-  //     .catch(err => {
-  //       console.log(err);
-  //       dispatch({type: LOGIN_FAILED});
-  //     });
-  // }
+  return dispatch => {
+    console.log('ok');
+    dispatch({type: LOGIN});
+
+    axios.post(`${Api.login}`, {username, password})
+      .then(res => {
+        // cookie.save('token', res.data.token, {path: '/'});
+        dispatch({type: LOGIN_SUCCEEDED, payload: jwt_decode(res.data.token)});
+      })
+      .catch(err => {
+        console.log(err);
+        dispatch({type: LOGIN_FAILED});
+      });
+  }
 }
 
 export function loginFailed() {
@@ -49,3 +43,4 @@ export function loginSucceeded() {
     type: LOGIN_SUCCEEDED,
   };
 }
+

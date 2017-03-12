@@ -27,6 +27,7 @@ function authContainerReducer(state = initialState, action) {
     case LOGIN_FAILED:
       return state.set('waiting', null);
     case LOGIN_SUCCEEDED:
+      console.log(action.payload);
       return state.set('waiting', null)
         .set('user', action.payload);
     default:

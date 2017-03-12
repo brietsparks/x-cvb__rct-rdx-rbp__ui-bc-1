@@ -1,9 +1,9 @@
 import 'lodash';
 
-const root = 'http://localhost:3000';
+const root = 'http://localhost:8000';
 
 const endpoints = {
-  login: '/login'
+  login: '/auth/login'
 };
 
 _.each(endpoints, (val, key) => {

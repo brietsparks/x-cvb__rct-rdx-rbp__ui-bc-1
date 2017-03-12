@@ -9,15 +9,13 @@ import React from 'react';
 
 import Login from '../Login';
 
-import {login} from '../../containers/AuthContainer/actions';
-
 
 class Auth extends React.Component { // eslint-disable-line react/prefer-stateless-function
   render() {
     return (
       <div>
         <h2>Auth</h2>
-        <Login login={login}/>
+        <Login login={this.props.login}/>
       </div>
     );
   }
