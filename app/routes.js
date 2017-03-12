@@ -12,7 +12,40 @@ const loadModule = (cb) => (componentModule) => {
   cb(null, componentModule.default);
 };
 
-export default function createRoutes(store) {
+
+export default function createRootComponent(store) {
+  const { injectReducer } = getAsyncInjectors(store); // eslint-disable-line no-unused-vars
+  return {
+    getComponent(nextState, cb) {
+      const importModules = Promise.all([
+        System.import('containers/App'),
+
+        // System.import('containers/NavigationContainer'),
+        // System.import('containers/NavigationContainer/reducer'),
+        //
+        System.import('containers/AuthContainer/reducer'),
+        System.import('containers/AuthContainer'),
+      ]);
+
+      const renderRoute = loadModule(cb);
+
+      importModules.then(([
+        app,
+
+        authReducer,
+        authContainer
+      ]) => {
+        injectReducer('authContainer', authReducer.default);
+        renderRoute(app);
+      });
+
+      importModules.catch(errorLoading);
+    },
+    childRoutes: createRoutes(store),
+  }
+}
+
+function createRoutes(store) {
   // Create reusable async injectors using getAsyncInjectors factory
   const { injectReducer, injectSagas } = getAsyncInjectors(store); // eslint-disable-line no-unused-vars
 
@@ -22,7 +55,7 @@ export default function createRoutes(store) {
       name: 'home',
       getComponent(nextState, cb) {
         const importModules = Promise.all([
-          import('containers/HomePage'),
+          System.import('containers/HomePage'),
         ]);
 
         const renderRoute = loadModule(cb);
@@ -34,10 +67,37 @@ export default function createRoutes(store) {
         importModules.catch(errorLoading);
       },
     }, {
+      path: '/builder',
+      name: 'builderContainer',
+      getComponent(nextState, cb) {
+        const importModules = Promise.all([
+          System.import('containers/BuilderContainer/reducer'),
+          System.import('containers/BuilderContainer/sagas'),
+          System.import('containers/BuilderContainer'),
+        ]);
+
+        const renderRoute = loadModule(cb);
+
+        importModules.then(([
+          builderReducer, builderSagas, builderComponent,
+          authReducer, authSagas, authComponent
+        ]) => {
+          injectReducer('builderContainer', builderReducer.default);
+          injectSagas(builderSagas.default);
+          renderRoute(builderComponent);
+
+          injectReducer('authContainer', authReducer.default);
+          injectSagas(authSagas.default);
+          renderRoute(authComponent);
+        });
+
+        importModules.catch(errorLoading);
+      },
+    }, {
       path: '*',
       name: 'notfound',
       getComponent(nextState, cb) {
-        import('containers/NotFoundPage')
+          System.import('containers/NotFoundPage')
           .then(loadModule(cb))
           .catch(errorLoading);
       },

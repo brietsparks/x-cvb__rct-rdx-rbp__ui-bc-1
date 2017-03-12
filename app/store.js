@@ -5,6 +5,7 @@
 import { createStore, applyMiddleware, compose } from 'redux';
 import { fromJS } from 'immutable';
 import { routerMiddleware } from 'react-router-redux';
+import thunk from 'redux-thunk';
 import createSagaMiddleware from 'redux-saga';
 import createReducer from './reducers';
 
@@ -15,6 +16,7 @@ export default function configureStore(initialState = {}, history) {
   // 1. sagaMiddleware: Makes redux-sagas work
   // 2. routerMiddleware: Syncs the location/URL path to the state
   const middlewares = [
+    thunk,
     sagaMiddleware,
     routerMiddleware(history),
   ];
@@ -46,7 +48,7 @@ export default function configureStore(initialState = {}, history) {
   /* istanbul ignore next */
   if (module.hot) {
     module.hot.accept('./reducers', () => {
-      import('./reducers').then((reducerModule) => {
+      System.import('./reducers').then((reducerModule) => {
         const createReducers = reducerModule.default;
         const nextReducers = createReducers(store.asyncReducers);
 
