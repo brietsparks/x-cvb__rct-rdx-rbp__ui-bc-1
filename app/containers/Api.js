@@ -3,7 +3,8 @@ import 'lodash';
 const root = 'http://localhost:8000';
 
 const endpoints = {
-  login: '/auth/login'
+  login: '/auth/login',
+  register: '/auth/register'
 };
 
 _.each(endpoints, (val, key) => {

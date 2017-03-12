@@ -8,7 +8,7 @@ import React from 'react';
 // import styled from 'styled-components';
 
 import { fromJS } from 'immutable';
-
+import { LOGIN_FAILED } from '../../containers/AuthContainer/constants';
 
 class Login extends React.Component { // eslint-disable-line react/prefer-stateless-function
   constructor() {
@@ -24,6 +24,8 @@ class Login extends React.Component { // eslint-disable-line react/prefer-statel
       <div>
         <h3>Login</h3>
 
+        {this.message()}
+
         <label>Email</label>
         <input type="text" onChange={this.onChange.bind(this, 'email')} />
 
@@ -33,6 +35,14 @@ class Login extends React.Component { // eslint-disable-line react/prefer-statel
         <button onClick={this.onSubmit}>Login</button>
       </div>
     );
+  }
+
+  message() {
+    if(LOGIN_FAILED === this.props._lastAction) {
+      return (
+        <p>Invalid credentials.</p>
+      );
+    }
   }
 
   onSubmit = () => {

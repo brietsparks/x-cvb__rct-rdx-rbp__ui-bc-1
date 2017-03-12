@@ -22,7 +22,7 @@ export default function createRootComponent(store) {
 
         // System.import('containers/NavigationContainer'),
         // System.import('containers/NavigationContainer/reducer'),
-        //
+
         System.import('containers/AuthContainer/reducer'),
         System.import('containers/AuthContainer'),
       ]);
