@@ -9,7 +9,6 @@ const selectBuilderContainerDomain = () => (state) => state.get('builderContaine
  * Other specific selectors
  */
 
-
 /**
  * Default selector used by BuilderContainer
  */
@@ -21,5 +20,5 @@ const makeSelectBuilderContainer = () => createSelector(
 
 export default makeSelectBuilderContainer;
 export {
-  selectBuilderContainerDomain,
+  selectBuilderContainerDomain
 };

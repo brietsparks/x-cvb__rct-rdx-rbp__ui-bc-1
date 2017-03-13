@@ -71,24 +71,25 @@ function createRoutes(store) {
       name: 'builderContainer',
       getComponent(nextState, cb) {
         const importModules = Promise.all([
+          System.import('containers/ExpsContainer/reducer'),
+          System.import('containers/ExpsContainer'),
+
           System.import('containers/BuilderContainer/reducer'),
-          System.import('containers/BuilderContainer/sagas'),
           System.import('containers/BuilderContainer'),
         ]);
 
         const renderRoute = loadModule(cb);
 
         importModules.then(([
-          builderReducer, builderSagas, builderComponent,
-          authReducer, authSagas, authComponent
+          expsReducer, expsComponent,
+          builderReducer, builderComponent,
         ]) => {
+          injectReducer('expsContainer', expsReducer.default);
+          renderRoute(expsComponent);
+
           injectReducer('builderContainer', builderReducer.default);
-          injectSagas(builderSagas.default);
           renderRoute(builderComponent);
 
-          injectReducer('authContainer', authReducer.default);
-          injectSagas(authSagas.default);
-          renderRoute(authComponent);
         });
 
         importModules.catch(errorLoading);
