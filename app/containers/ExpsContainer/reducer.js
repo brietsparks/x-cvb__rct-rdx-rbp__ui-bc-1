@@ -25,9 +25,9 @@ const initialState = fromJS({
     {id: 103, parent_id: 3, data: 'foo'},
     {id: 104, parent_id: 3, data: 'foo'},
     {id: 105, parent_id: 4, data: 'foo'},
-    {id: 105, parent_id: 4, data: 'foo'},
-    {id: 105, parent_id: 4, data: 'foo'},
-    {id: 105, parent_id: 6, data: 'foo'}
+    {id: 106, parent_id: 4, data: 'foo'},
+    {id: 107, parent_id: 4, data: 'foo'},
+    {id: 108, parent_id: 6, data: 'foo'}
   ]
 });
 

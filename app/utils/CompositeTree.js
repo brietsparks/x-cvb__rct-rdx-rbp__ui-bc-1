@@ -12,7 +12,14 @@ export default class CompositeTree {
 
   getTree() {
     const composites = this.composites;
+    const leaves = this.leaves;
+
     _.each(composites.items, (item) => {
+      this._initializeChildrenFields({
+        item: item,
+        compositesChildrenField: composites.childrenField,
+        leavesChildrenField: leaves.childrenField
+      });
       this._attachToParent({
         attachable: item,
         key: composites.key,
@@ -21,7 +28,6 @@ export default class CompositeTree {
       });
     });
 
-    const leaves = this.leaves;
     _.each(leaves.items, (item) => {
       this._attachToParent({
         attachable: item,
@@ -36,6 +42,20 @@ export default class CompositeTree {
     });
 
     return roots;
+  }
+
+  _initializeChildrenFields({
+    item,
+    compositesChildrenField,
+    leavesChildrenField,
+  }) {
+    if (!_.has(item, compositesChildrenField)) {
+      item[compositesChildrenField] = [];
+    }
+
+    if (!_.has(item, leavesChildrenField)) {
+      item[leavesChildrenField] = [];
+    }
   }
 
   _attachToParent({attachable, key, parentKey, childrenField}) {
